@@ -1,0 +1,23 @@
+version: '3'
+services:
+  comet-lottery:
+    image: bellsoft/liberica-openjdk-alpine
+    container_name: comet-lottery
+    volumes:
+      - ./lotteryConf.json:/app/lotteryConf.json
+      - ./serviceOwner.json:/app/serviceOwner.json
+      - ./comet-lottery-1.0.0.jar:/app/comet-lottery-1.0.0.jar
+    restart: unless-stopped
+    working_dir: /app
+    command: java -jar comet-lottery-1.0.0.jar
+  comet-lottery-api:
+    build: .
+    container_name: comet-lottery-api
+    volumes:
+      - ./lotteryConf.json:/app/lotteryConf.json
+      - ./serviceOwner.json:/app/serviceOwner.json
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    working_dir: /app
+    command: uvicorn main:app --workers 1 --host 0.0.0.0 --port 8086
