@@ -1,0 +1,26 @@
+{
+  "Lottery": {
+    "version": 1,
+    "initTransaction": "",
+    "distributionAddress": "",
+    "firstTime": "",
+    "timeStamp": "",
+    "ticketContract": {
+      "contract": "",
+      "singleton": "",
+      "initialBox": ""
+    },
+    "collectionContract": {
+      "contract": "",
+      "initialBox": ""
+    },
+    "proxyContract": {
+      "contract": ""
+    },
+    "winnerSelectionContract": {
+      "contract": ""
+    },
+    "winningNFT": "null",
+    "winningAddress": "null"
+  }
+}

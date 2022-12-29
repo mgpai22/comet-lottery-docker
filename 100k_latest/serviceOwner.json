@@ -1,0 +1,16 @@
+{
+  "ownerMnemonic": "",
+  "ownerMnemonicPw": "",
+  "cometId": "",
+  "cometTicketPrice": 100,
+  "winnerChance": 100,
+  "timeBeforeUnlockMS": 1000,
+  "distributionAddress": "",
+  "singletonName": "",
+  "singletonDesc": "",
+  "ticketName": "",
+  "ticketDesc": "",
+  "oracleNFT": "",
+  "nodeUrl": "",
+  "apiUrl": ""
+}

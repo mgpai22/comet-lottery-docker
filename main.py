@@ -27,7 +27,7 @@ def file(x):  # Function to load specified file
         return json.load(file)
 
 
-def get_max_file(directory):
+def get_singleton_dir(directory, singleton: str, pattern: str):
     # Use the glob function to get a list of all files in the directory that have an underscore in the name
     files = glob.glob(os.path.join(directory, '*_*'))
 
@@ -35,25 +35,22 @@ def get_max_file(directory):
     files = [os.path.normpath(f) for f in files]
 
     # Use a regular expression to find the number after the underscore in each file name
-    pattern = re.compile(r'_(\d+)')
 
-    # Find the maximum number in the file names
-    max_num = max([int(pattern.search(f).group(1)) for f in files])
+    # Add all values after '_' to a list
+    list_of_singleton_ids = []
+    for f in files:
+        match = re.search(pattern, f)
+        if match:
+            matched = match.group(1)
+            print(matched)
+            list_of_singleton_ids.append(matched)
+    try:
+        index = list_of_singleton_ids.index(singleton)
+        return files[index]
+    except ValueError:
+        pass
 
-    # Find the file name with the maximum number
-    max_file = [f for f in files if pattern.search(f).group(1) == str(max_num)][0]
-
-    return max_file
-
-
-def search_file_by_proxy_address(directory, value):
-    files = glob.glob(os.path.join(directory, '*.json'))
-    files = [os.path.normpath(f) for f in files]
-    for file in files:
-        with open(file, 'r') as f:
-            data = json.load(f)
-        if data['Lottery']['proxyContract']['contract'] == value:
-            return file
+    return -1
 
 
 @app.get("/")
@@ -65,6 +62,16 @@ async def root():
 async def display_lottery():
     return file('lotteryConf.json')
 
+@app.get("/lottery/{id}")
+async def display_lottery_by_id(id: str):
+    directory = get_singleton_dir(lottery_directory, id, "lottery_(.*?)\.json")
+    if directory == -1:
+        dict = {
+            'error': 'not found, please try a different id'
+        }
+        return dict
+    return file(directory)
+
 
 @app.get("/service")
 async def display_service():
@@ -72,6 +79,7 @@ async def display_service():
     dict = {
         "cometId": service_owner_file['cometId'],
         "cometTicketPrice": service_owner_file['cometTicketPrice'],
+        "winnerChance": service_owner_file['winnerChance'],
         "timeBeforeUnlockMS": service_owner_file['timeBeforeUnlockMS'],
         "distributionAddress": service_owner_file['distributionAddress'],
         "singletonName": service_owner_file['singletonName'],
@@ -82,17 +90,19 @@ async def display_service():
     }
     return dict
 
-
-@app.get("/latest_lottery_history")
-async def display_latest_lottery_history():
-    return file(get_max_file(lottery_directory))
-
-@app.get("/latest_service_history")
-async def display_latest_service_history():
-    service_owner_file = file(get_max_file(lottery_directory))
+@app.get("/service/{id}")
+async def display_service_by_id(id: str):
+    directory = get_singleton_dir(service_directory, id, "serviceOwner_(.*?)\.json")
+    if directory == -1:
+        dict = {
+            'error': 'not found, please try a different id'
+        }
+        return dict
+    service_owner_file = file(directory)
     dict = {
         "cometId": service_owner_file['cometId'],
         "cometTicketPrice": service_owner_file['cometTicketPrice'],
+        "winnerChance": service_owner_file['winnerChance'],
         "timeBeforeUnlockMS": service_owner_file['timeBeforeUnlockMS'],
         "distributionAddress": service_owner_file['distributionAddress'],
         "singletonName": service_owner_file['singletonName'],
@@ -103,8 +113,3 @@ async def display_latest_service_history():
     }
     return dict
 
-
-@app.get("/lottery_by_proxy_address/{address}")
-async def lottery_by_proxy_address(address: str):
-    lottery_file = search_file_by_proxy_address(lottery_directory, address)
-    return file(lottery_file)
