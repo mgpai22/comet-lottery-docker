@@ -1,5 +1,5 @@
 
-# Project Title
+# Comet Lottery Docker Deployment
 
 Docker setup for easy running of comet lottery
 
