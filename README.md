@@ -3,6 +3,8 @@
 
 Docker setup for easy running of comet lottery
 
+For more information and to view source code please checkout the [main repo](https://github.com/mgpai22/comet-lottery)
+
 
 
 
