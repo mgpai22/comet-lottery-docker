@@ -28,6 +28,7 @@ Docker setup for easy running of comet lottery
     - edit the oracle NFT and add a token id, with the help of an oracle singleton a random number is generated based on the token's box id
     - edit the nodeUrl (must be in the form of http://[ip or domain (port might not be need if a domain is there)]:PORT)
     - edit the apiUrl
+    - [for additional configuration information click here](https://github.com/mgpai22/comet-lottery#serviceownerjson)
   4. Run `docker-compose up -d`
 
   ### Additonal Information
@@ -54,6 +55,7 @@ Docker setup for easy running of comet lottery
     - edit the mnemonic pw (NOT WALLET PW), if there is no mnemonic, skip this step
     - edit the nodeUrl (must be in the form of http://[ip or domain (port might not be need if a domain is there)]:PORT)
     - edit the apiUrl
+    - note that followers **do not** need to fill in anything else, however for additional information go [here](https://github.com/mgpai22/comet-lottery#serviceownerjson)
   4. Run `docker-compose -f follower.yml up -d`
 
 
