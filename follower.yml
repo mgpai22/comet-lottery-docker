@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  comet-lottery-250k-follower:
+    image: bellsoft/liberica-openjdk-alpine
+    container_name: comet-lottery-250k-follower
+    volumes:
+      - ./250k_latest/lotteryConf.json:/app/lotteryConf.json
+      - ./250k_latest/serviceOwner.json:/app/serviceOwner.json
+      - ./comet-lottery-1.1.0.jar:/app/comet-lottery-1.1.0.jar
+      - ./250k_latest/history:/app/history
+    restart: unless-stopped
+    working_dir: /app
+    command: java -jar comet-lottery-1.1.0.jar --follow http://192.168.50.3:8086/service http://192.168.50.3:8086/lottery
+
+  comet-lottery-100k-follower:
+    image: bellsoft/liberica-openjdk-alpine
+    container_name: comet-lottery-100k-follower
+    volumes:
+      - ./100k_latest/lotteryConf.json:/app/lotteryConf.json
+      - ./100k_latest/serviceOwner.json:/app/serviceOwner.json
+      - ./comet-lottery-1.1.0.jar:/app/comet-lottery-1.1.0.jar
+      - ./100k_latest/history:/app/history
+    restart: unless-stopped
+    working_dir: /app
+    command: java -jar comet-lottery-1.1.0.jar --follow http://192.168.50.3:8087/service http://192.168.50.3:8087/lottery
+
+  comet-lottery-10k-follower:
+    image: bellsoft/liberica-openjdk-alpine
+    container_name: comet-lottery-10k-follower
+    volumes:
+      - ./10k_latest/lotteryConf.json:/app/lotteryConf.json
+      - ./10k_latest/serviceOwner.json:/app/serviceOwner.json
+      - ./comet-lottery-1.1.0.jar:/app/comet-lottery-1.1.0.jar
+      - ./10k_latest/history:/app/history
+    restart: unless-stopped
+    working_dir: /app
+    command: java -jar comet-lottery-1.1.0.jar --follow http://192.168.50.3:8088/service http://192.168.50.3:8088/lottery
